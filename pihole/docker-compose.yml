@@ -4,16 +4,12 @@ version: "3"
 services:
   pihole:
     container_name: pihole
-    image: pihole/pihole:latest
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
-      - "80:80/tcp"
-      - "443:443/tcp"
+    image: pihole/pihole:v5.1.2
+    # Using network_mode "host" to support DHCP
+    network_mode: "host"
     environment:
-      TZ: 'America/Chicago'
-      # WEBPASSWORD: 'set a secure password here or it will be random'
+      - DNS1=1.1.1.1
+      - TZ='America/Chicago'
     # Volumes store your data between container upgrades
     volumes:
       - './etc-pihole/:/etc/pihole/'
@@ -23,4 +19,7 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
 
