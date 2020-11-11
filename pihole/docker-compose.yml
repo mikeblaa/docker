@@ -8,8 +8,9 @@ services:
     # Using network_mode "host" to support DHCP
     network_mode: "host"
     environment:
-      - DNS1=1.1.1.1
       - TZ='America/Chicago'
+      - DNS1=1.1.1.1
+      - DNS2=1.0.0.1
     # Volumes store your data between container upgrades
     volumes:
       - './etc-pihole/:/etc/pihole/'
