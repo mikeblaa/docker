@@ -4,13 +4,12 @@ version: "3"
 services:
   pihole:
     container_name: pihole
-    image: pihole/pihole:v5.1.2
+    image: pihole/pihole:2021.12.1
     # Using network_mode "host" to support DHCP
     network_mode: "host"
     environment:
       - TZ='America/Chicago'
-      - DNS1=1.1.1.1
-      - DNS2=1.0.0.1
+      - PIHOLE_DNS_=1.1.1.1;1.0.0.1
     # Volumes store your data between container upgrades
     volumes:
       - './etc-pihole/:/etc/pihole/'
@@ -19,8 +18,10 @@ services:
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN
+      - CAP_NET_RAW
+      - CAP_SYS_NICE
+      - CAP_IPC_LOCK
     restart: unless-stopped
     dns:
       - 127.0.0.1
       - 1.1.1.1
-
